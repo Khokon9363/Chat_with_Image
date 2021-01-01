@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Chat;
+use App\Events\ChatEvent;
 use App\User;
-use App\Slider;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,8 +29,10 @@ class HomeController extends Controller
         return view('home');
     }
     public function users()
-    {
-        return response()->json(User::where('id','!=',auth()->user()->id)->get(), 200);
+    {   
+        $users = User::where('id','!=',auth()->user()->id)->get();
+
+        return response()->json($users, 200);
     }
     public function user($id)
     {
@@ -53,7 +55,10 @@ class HomeController extends Controller
             $chat->receiver_id = $request->receiver_id;
             $chat->sender_id = auth()->user()->id;
             $chat->save();
-            return response()->json($chat, 200);   
+            
+            event(new ChatEvent($chat));
+
+            return response()->json($chat, 200);
         }
     }
 }

@@ -5,6 +5,7 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       <v-toolbar-title><img id="avatar" :src="selectedUserAvatar"></v-toolbar-title>
       <v-toolbar-title>{{ selectedUserName }}</v-toolbar-title>
+      <v-toolbar-title class="ml-3 text-danger">{{ typing }}</v-toolbar-title>
       <div class="row">
             <div class="col-sm">
               <img id="imagePreview" class="rounded mx-auto d-block">
@@ -34,6 +35,8 @@
             <v-list-item-title style="margin-left: 17px;" @click="userSelected(user.id,user.name,user.avatar)">
               {{ user.name }}
             </v-list-item-title>
+              <!-- <span class="badge badge-success">1</span>
+              <span class="badge badge-danger">0</span> -->
           </v-list-item>
           </div>
           <div v-else>
@@ -67,9 +70,10 @@
        <ul>
          <div v-for="chat in chats" :key="chat.id">
          <li class="text-right" v-show="chat.sender_id == authId"><small>{{ chat.created_at }}</small> {{ chat.chat }}</li>
-         <li class="text-right" v-show="chat.sender_id == authId" v-if="chat.image"><img :title="chat.created_at" :src="'/chats_pics/'+chat.image" style="height: 100px;width: 100px;"></li>
+         <li class="text-right" v-show="chat.sender_id == authId" v-if="chat.image"><img :title="chat.created_at" :src="'/chats_pics/'+chat.image" style="height: 150px;width: 150px;"></li>
+
          <li class="text-left" v-show="chat.sender_id != authId" style="color: red;">{{ chat.chat }} <small>{{ chat.created_at }}</small></li>
-         <li class="text-left" v-show="chat.sender_id != authId" v-if="chat.image"><img :title="chat.created_at" :src="'/chats_pics/'+chat.image" style="height: 100px;width: 100px;"></li>
+         <li class="text-left" v-show="chat.sender_id != authId" v-if="chat.image"><img :title="chat.created_at" :src="'/chats_pics/'+chat.image" style="height: 150px;width: 150px;"></li>
          </div>
        </ul>
     </div>
@@ -102,25 +106,55 @@
       chat : '',
       btnDisable : true,
 
-      users : [],
+      users : [], // pagination fact
       usersPages: [],
       perPage: 25,
       pageCount: 1,
       currentPage: 1,
 
-      search: '',
+      search: '', // search fact
       message: 'No Data Found',
 
       inputUpload : null, // null after store
+
+      typing : '', // typing fact
+      typingValue : '',
+      authName : document.getElementById('authName').value,
     }),
     mounted (){
+      Echo.join(`chat`)
+          .here((users) => {
+            console.log(users);
+          })
+          .joining((user) => {
+              console.log(user.name + ' joined');
+          })
+          .leaving((user) => {
+              console.log(user.name + ' leaved');
+          });
+      Echo.private('chat')
+          .listen('ChatEvent', (e) => {
+                this.userSelected(this.selectedUserId,this.selectedUserName,this.selectedUserAvatar)
+                this.getUsers()
+          })
+            // client side event true korte hobe atar jonno config/broadcast.php -> app[]
+            // It's for typing
+          .listenForWhisper('typing', (e) => {
+              if(e.typingValue.length > 0){
+                     if (e.name == this.selectedUserName) {
+                        this.typing = 'is typing...'
+                     }
+               }else{
+                  this.typing = ''
+               }
+          })
       this.getUsers()
     },
     watch :{
         search (value) {
             this.setCurrentPage(1)
             this.generatePages(this.users)
-            if (this.search != '') {
+            if (this.search !== '' || this.search !== ' ') {
                 let search = this.users.filter(e => {
                     if (e.name.indexOf(this.search) !== -1) {
                         return e
@@ -129,6 +163,13 @@
                 this.generatePages(search)
             }
         },
+        chat(){
+           Echo.private('chat')
+               .whisper('typing', {
+                   name: this.authName,
+                   typingValue : this.chat
+               })
+        }
     },
     methods:{
         setCurrentPage (page) {
