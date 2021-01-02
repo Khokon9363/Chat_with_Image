@@ -4,7 +4,6 @@
 
 use App\User;
 use App\Chat;
-use App\Slider;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -38,10 +37,5 @@ $factory->define(Chat::class, function (Faker $faker) {
         'sender_id' => $sender,
         'receiver_id' => $receiver,
         'chat' => $faker->sentence,
-    ];
-});
-$factory->define(Slider::class, function (Faker $faker) {
-    return [
-        'slider' => 'http://lorempixel.com/800/400/cats/Faker',
     ];
 });

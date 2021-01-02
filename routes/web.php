@@ -21,4 +21,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'HomeController@users');
 Route::get('/user/{id}', 'HomeController@user');
 Route::post('/store', 'HomeController@store');
-Route::get('/slider', 'SliderController@sliders');

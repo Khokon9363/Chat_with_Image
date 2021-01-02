@@ -20,7 +20,7 @@
             </div>
             <div class="row blog pt-5 mt-md-3">
                 <div class="col-md-12">
-                    <div id="blogCarousel" class="carousel slide" data-ride="carousel" data-interval="1000">
+                    <div id="blogCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
 
                         <ol class="carousel-indicators">
                             <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
@@ -30,31 +30,11 @@
 
                         <!-- Carousel items -->
                         <div class="carousel-inner">
-
-                        <div class="carousel-item active">
+@foreach($sliders as $key => $sliders)
+                        <div class="carousel-item <?php if($key === 0){ echo 'active';} ?>">
                                 <div class="d-flex team-agile-row">
                                     <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 1</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 2</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 3</a></h5>
+                                        <h5><a href="#">Title {{ ++$key }}</a></h5>
                                         <div class="box20">
                                             <div class="box-content">
                                                 <h3 class="title">CODE :- </h3>
@@ -65,75 +45,7 @@
                                     </div>
                                 </div>
                         </div>
-                        <div class="carousel-item">
-                                <div class="d-flex team-agile-row">
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 4</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 5</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 6</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="carousel-item">
-                                <div class="d-flex team-agile-row">
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 7</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 8</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 w3-slide-grid">
-                                        <h5><a href="#">Title 9</a></h5>
-                                        <div class="box20">
-                                            <div class="box-content">
-                                                <h3 class="title">CODE :- </h3>
-                                                <h4 class="title">( Anything )</h4>
-                                                <span class="post text-capitalize">Expired at : Date</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-
+@endforeach
                         </div>
                         <!--.carousel-inner-->
                     </div>
